@@ -396,6 +396,21 @@ h1,h2,h3{ font-family:var(--f-display); text-transform:uppercase; line-height:.9
 }
 .form-field input:focus, .form-field select:focus, .form-field textarea:focus{ border-color:var(--red); }
 .form-field textarea{ resize:vertical; min-height:80px; }
+.field-error{
+  font-family:var(--f-mono);
+  font-size:11px;
+  letter-spacing:.02em;
+  color:var(--red-2);
+  margin-top:6px;
+  display:none;
+}
+.form-field.has-error .field-error{ display:block; }
+.form-field.has-error label{ color:var(--red-2); }
+.form-field.has-error input,
+.form-field.has-error select,
+.form-field.has-error textarea{
+  border-bottom-color:var(--red);
+}
 @media (max-width:860px){ .contact-grid{ grid-template-columns:1fr; gap:40px; } .form-row{ grid-template-columns:1fr; } }
 
 /* ---------- footer ---------- */
@@ -724,7 +739,7 @@ footer{ padding:60px 0 40px; border-top:1px solid var(--line-on-ink); }
         <p class="lede">Tell us about the brand. We'll get back within 48 hours.</p>
       </div>
 
-      <form class="reveal" id="contactForm" action="https://formsubmit.co/hello.craftseven@gmail.com" method="POST">
+      <form class="reveal" id="contactForm" action="https://formsubmit.co/hello.craftseven@gmail.com" method="POST" novalidate>
         <!-- EDIT ▸ Form submissions are delivered to hello.craftseven@gmail.com via FormSubmit.co (no backend required).
              IMPORTANT: FormSubmit will send ONE activation email to hello.craftseven@gmail.com the first time this
              form is submitted — that link must be clicked once to start receiving submissions. -->
@@ -733,32 +748,75 @@ footer{ padding:60px 0 40px; border-top:1px solid var(--line-on-ink); }
         <input type="hidden" name="_template" value="table">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
         <div class="form-row">
-          <div class="form-field"><label>Name</label><input type="text" name="Name" required></div>
-          <div class="form-field"><label>Company</label><input type="text" name="Company"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-field"><label>Email</label><input type="email" name="Email" required></div>
-          <div class="form-field"><label>Phone</label><input type="tel" name="Phone"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-field full"><label>Website / Instagram</label><input type="text" name="Website / Instagram"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-field"><label>What do you need help with?</label>
-            <select name="Needs help with"><option>Brand Strategy</option><option>Content &amp; Social</option><option>Campaign</option><option>Full Growth Partnership</option><option>Other</option></select>
+          <div class="form-field">
+            <label for="formName">Name *</label>
+            <input type="text" id="formName" name="Name" required autocomplete="name" maxlength="100">
+            <span class="field-error" id="errorName" aria-live="polite"></span>
           </div>
-          <div class="form-field"><label>Budget range</label>
-            <select name="Budget range"><option>&lt; ₹1L / month</option><option>₹1L–3L / month</option><option>₹3L–10L / month</option><option>Project-based</option></select>
+          <div class="form-field">
+            <label for="formCompany">Company</label>
+            <input type="text" id="formCompany" name="Company" autocomplete="organization" maxlength="100">
+            <span class="field-error" id="errorCompany" aria-live="polite"></span>
           </div>
         </div>
         <div class="form-row">
-          <div class="form-field full"><label>Project timeline</label><input type="text" name="Timeline" placeholder="e.g. Starting next month"></div>
+          <div class="form-field">
+            <label for="formEmail">Email *</label>
+            <input type="email" id="formEmail" name="Email" required autocomplete="email" maxlength="120">
+            <span class="field-error" id="errorEmail" aria-live="polite"></span>
+          </div>
+          <div class="form-field">
+            <label for="formPhone">Phone</label>
+            <input type="tel" id="formPhone" name="Phone" autocomplete="tel" maxlength="25" placeholder="+91 98765 43210">
+            <span class="field-error" id="errorPhone" aria-live="polite"></span>
+          </div>
         </div>
         <div class="form-row">
-          <div class="form-field full"><label>Message</label><textarea rows="3" name="Message"></textarea></div>
+          <div class="form-field full">
+            <label for="formWebsite">Website / Instagram</label>
+            <input type="text" id="formWebsite" name="Website / Instagram" placeholder="brand.com or @brand" maxlength="150">
+            <span class="field-error" id="errorWebsite" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="formHelp">What do you need help with?</label>
+            <select id="formHelp" name="Needs help with">
+              <option value="Brand Strategy">Brand Strategy</option>
+              <option value="Content &amp; Social">Content &amp; Social</option>
+              <option value="Campaign">Campaign</option>
+              <option value="Full Growth Partnership">Full Growth Partnership</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="field-error" id="errorHelp" aria-live="polite"></span>
+          </div>
+          <div class="form-field">
+            <label for="formBudget">Budget range</label>
+            <select id="formBudget" name="Budget range">
+              <option value="&lt; ₹1L / month">&lt; ₹1L / month</option>
+              <option value="₹1L–3L / month">₹1L–3L / month</option>
+              <option value="₹3L–10L / month">₹3L–10L / month</option>
+              <option value="Project-based">Project-based</option>
+            </select>
+            <span class="field-error" id="errorBudget" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field full">
+            <label for="formTimeline">Project timeline</label>
+            <input type="text" id="formTimeline" name="Timeline" placeholder="e.g. Starting next month" maxlength="100">
+            <span class="field-error" id="errorTimeline" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field full">
+            <label for="formMessage">Message</label>
+            <textarea rows="3" id="formMessage" name="Message" placeholder="Tell us what you're trying to build, your goals, and where you need CRAFT to step in." maxlength="2000"></textarea>
+            <span class="field-error" id="errorMessage" aria-live="polite"></span>
+          </div>
         </div>
         <button type="submit" class="btn solid" data-hover="GO" style="margin-top:10px;"><span>Let's make something great →</span></button>
-        <p id="formStatus" style="font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;color:var(--muted-on-ink);margin-top:14px;"></p>
+        <p id="formStatus" style="font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;margin-top:14px;" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
@@ -921,35 +979,203 @@ document.querySelectorAll('.industry-row').forEach(row => {
   });
 });
 
-// -------- contact form: submits to hello.craftseven@gmail.com via FormSubmit.co --------
-const contactForm = document.getElementById('contactForm');
-const formStatus = document.getElementById('formStatus');
-contactForm.addEventListener('submit', function(e){
-  e.preventDefault();
-  const submitBtn = contactForm.querySelector('button[type="submit"]');
-  submitBtn.disabled = true;
-  formStatus.textContent = 'Sending…';
+// -------- contact form: validation & submission --------
+(function(){
+  const contactForm = document.getElementById('contactForm');
+  if (!contactForm) return;
 
-  fetch(contactForm.action, {
-    method: 'POST',
-    body: new FormData(contactForm),
-    headers: { 'Accept': 'application/json' }
-  })
-  .then(res => {
-    if (res.ok) {
-      formStatus.textContent = "Thanks — your message has been sent. We'll be in touch within 48 hours.";
-      contactForm.reset();
-    } else {
-      throw new Error('Request failed');
+  const formStatus = document.getElementById('formStatus');
+
+  const fields = {
+    name: {
+      el: document.getElementById('formName'),
+      errorEl: document.getElementById('errorName'),
+      validate(val) {
+        if (typeof val !== 'string') return 'Invalid name format.';
+        const trimmed = val.trim();
+        if (!trimmed) return 'Please enter your name.';
+        if (trimmed.length < 2) return 'Name must be at least 2 characters.';
+        if (trimmed.length > 100) return 'Name must be under 100 characters.';
+        if (!/^[\p{L}\s'\-\.]{2,100}$/u.test(trimmed)) {
+          return 'Please enter a valid name (letters and spaces only).';
+        }
+        return null;
+      }
+    },
+    company: {
+      el: document.getElementById('formCompany'),
+      errorEl: document.getElementById('errorCompany'),
+      validate(val) {
+        if (typeof val !== 'string') return 'Invalid company format.';
+        const trimmed = val.trim();
+        if (trimmed.length > 100) return 'Company name must be under 100 characters.';
+        return null;
+      }
+    },
+    email: {
+      el: document.getElementById('formEmail'),
+      errorEl: document.getElementById('errorEmail'),
+      validate(val) {
+        if (typeof val !== 'string') return 'Invalid email format.';
+        const trimmed = val.trim();
+        if (!trimmed) return 'Please enter your email address.';
+        if (trimmed.length > 120) return 'Email address is too long.';
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+        if (!emailRegex.test(trimmed)) {
+          return 'Please enter a valid email address (e.g. name@company.com).';
+        }
+        return null;
+      }
+    },
+    phone: {
+      el: document.getElementById('formPhone'),
+      errorEl: document.getElementById('errorPhone'),
+      validate(val) {
+        if (typeof val !== 'string') return 'Invalid phone number format.';
+        const trimmed = val.trim();
+        if (!trimmed) return null;
+        const digitsOnly = trimmed.replace(/\D/g, '');
+        if (digitsOnly.length < 7 || digitsOnly.length > 15 || !/^[\d\s\+\-\(\)]{7,25}$/.test(trimmed)) {
+          return 'Please enter a valid phone number (7 to 15 digits).';
+        }
+        return null;
+      }
+    },
+    website: {
+      el: document.getElementById('formWebsite'),
+      errorEl: document.getElementById('errorWebsite'),
+      validate(val) {
+        if (typeof val !== 'string') return 'Invalid website format.';
+        const trimmed = val.trim();
+        if (!trimmed) return null;
+        const isHandle = /^@?[a-zA-Z0-9._]{1,30}$/.test(trimmed);
+        const isUrl = /^(https?:\/\/)?([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(\/.*)?$/i.test(trimmed);
+        if (!isHandle && !isUrl) {
+          return 'Please enter a valid website (e.g. brand.com) or Instagram handle (@brand).';
+        }
+        return null;
+      }
+    },
+    timeline: {
+      el: document.getElementById('formTimeline'),
+      errorEl: document.getElementById('errorTimeline'),
+      validate(val) {
+        if (typeof val !== 'string') return 'Invalid timeline format.';
+        const trimmed = val.trim();
+        if (trimmed.length > 100) return 'Timeline must be under 100 characters.';
+        return null;
+      }
+    },
+    message: {
+      el: document.getElementById('formMessage'),
+      errorEl: document.getElementById('errorMessage'),
+      validate(val) {
+        if (typeof val !== 'string') return 'Invalid message format.';
+        const trimmed = val.trim();
+        if (trimmed && trimmed.length < 5) {
+          return 'Please provide a few more details in your message (at least 5 characters).';
+        }
+        if (trimmed.length > 2000) {
+          return 'Message is too long (maximum 2,000 characters).';
+        }
+        return null;
+      }
     }
-  })
-  .catch(() => {
-    formStatus.textContent = "Something went wrong sending your message — please email us directly at hello.craftseven@gmail.com.";
-  })
-  .finally(() => {
-    submitBtn.disabled = false;
+  };
+
+  function setFieldError(key, errorMsg) {
+    const field = fields[key];
+    if (!field || !field.el) return;
+    const parent = field.el.closest('.form-field');
+    if (errorMsg) {
+      if (parent) parent.classList.add('has-error');
+      if (field.errorEl) field.errorEl.textContent = errorMsg;
+      field.el.setAttribute('aria-invalid', 'true');
+    } else {
+      if (parent) parent.classList.remove('has-error');
+      if (field.errorEl) field.errorEl.textContent = '';
+      field.el.removeAttribute('aria-invalid');
+    }
+  }
+
+  Object.keys(fields).forEach(key => {
+    const field = fields[key];
+    if (!field.el) return;
+
+    field.el.addEventListener('blur', () => {
+      const err = field.validate(field.el.value);
+      setFieldError(key, err);
+    });
+
+    field.el.addEventListener('input', () => {
+      const parent = field.el.closest('.form-field');
+      if (parent && parent.classList.contains('has-error')) {
+        const err = field.validate(field.el.value);
+        setFieldError(key, err);
+      }
+    });
   });
-});
+
+  contactForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    let firstInvalidField = null;
+    let hasErrors = false;
+
+    Object.keys(fields).forEach(key => {
+      const field = fields[key];
+      if (!field.el) return;
+      const err = field.validate(field.el.value);
+      if (err) {
+        setFieldError(key, err);
+        hasErrors = true;
+        if (!firstInvalidField) {
+          firstInvalidField = field.el;
+        }
+      } else {
+        setFieldError(key, null);
+      }
+    });
+
+    if (hasErrors) {
+      formStatus.style.color = 'var(--red-2)';
+      formStatus.textContent = 'Please correct the highlighted errors before submitting.';
+      if (firstInvalidField) {
+        firstInvalidField.focus();
+        firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    formStatus.style.color = 'var(--bone)';
+    formStatus.textContent = 'Sending…';
+
+    fetch(contactForm.action, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(res => {
+      if (res.ok) {
+        formStatus.style.color = 'var(--bone)';
+        formStatus.textContent = "Thanks — your message has been sent. We'll be in touch within 48 hours.";
+        contactForm.reset();
+        Object.keys(fields).forEach(key => setFieldError(key, null));
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .catch(() => {
+      formStatus.style.color = 'var(--red-2)';
+      formStatus.textContent = "Something went wrong sending your message — please email us directly at hello.craftseven@gmail.com.";
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+    });
+  });
+})();
 </script>
 
 </body>
