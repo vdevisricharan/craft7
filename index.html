@@ -372,10 +372,27 @@ h1,h2,h3{ font-family:var(--f-display); text-transform:uppercase; line-height:.9
 .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px; }
 .form-field{ display:flex; flex-direction:column; gap:8px; }
 .form-field.full{ grid-column:1/-1; }
-.form-field label{ font-family:var(--f-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-on-bone); }
+.form-field label{ font-family:var(--f-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-on-ink); }
 .form-field input, .form-field select, .form-field textarea{
-  background:none; border:none; border-bottom:1px solid var(--line-on-bone); padding:10px 0; font-size:16px; color:var(--ink);
+  background:none; border:none; border-bottom:1px solid var(--line-on-ink); padding:10px 0; font-size:16px; color:var(--bone);
   outline:none; transition:border-color .3s ease;
+  font-family:inherit;
+  color-scheme:dark;
+}
+.form-field input::placeholder, .form-field textarea::placeholder{
+  color:var(--muted-on-ink); opacity:.5;
+}
+.form-field select option{
+  background:var(--ink-2); color:var(--bone);
+}
+.form-field input:-webkit-autofill,
+.form-field input:-webkit-autofill:hover,
+.form-field input:-webkit-autofill:focus,
+.form-field textarea:-webkit-autofill,
+.form-field select:-webkit-autofill{
+  -webkit-text-fill-color:var(--bone);
+  -webkit-box-shadow:0 0 0px 1000px var(--ink) inset;
+  transition:background-color 5000s ease-in-out 0s;
 }
 .form-field input:focus, .form-field select:focus, .form-field textarea:focus{ border-color:var(--red); }
 .form-field textarea{ resize:vertical; min-height:80px; }
